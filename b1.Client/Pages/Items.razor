@@ -1,0 +1,24 @@
+﻿@page "/items"
+
+@using b1.Client.Services.Interfaces
+@using b1.Shared
+@inject IItemService ItemService
+
+<h3>Items</h3>
+<ul>
+@foreach (var item in MyItems)
+{
+    <li>@item.Id @item.Name</li>
+}
+</ul>
+
+@code {
+    IEnumerable<Item> MyItems { get; set; } = new List<Item>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var i = await ItemService.GetAllItems();
+        if (i.Count != 0)
+            MyItems = i;
+    }
+}
